@@ -1,8 +1,11 @@
-import pygame
 import sys
 
+import pygame
 
-def events_listener(gun):
+from bullet import Bullet
+
+
+def events_listener(screen, gun, bullets):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -11,6 +14,9 @@ def events_listener(gun):
                 gun.move_right = True
             elif is_left_key(event):
                 gun.move_left = True
+            elif event.key == pygame.K_SPACE:
+                new_bullet = Bullet(screen, gun)
+                bullets.add(new_bullet)
         elif event.type == pygame.KEYUP:
             if is_right_key(event):
                 gun.move_right = False
@@ -26,7 +32,9 @@ def is_left_key(event):
     return event.key == pygame.K_a or event.key == pygame.K_LEFT
 
 
-def update_screen(bg_color, screen, gun):
+def update_screen(bg_color, screen, gun, bullets):
     screen.fill(bg_color)
-    gun.rander()
+    for bullet in bullets.sprites():
+        bullet.draw_bullet()
+    gun.render()
     pygame.display.flip()

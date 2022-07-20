@@ -14,7 +14,7 @@ class Gun:
         self.move_right = False
         self.move_left = False
 
-    def rander(self):
+    def render(self):
         self.screen.blit(self.image, self.rect)
 
     def update_gun(self):
