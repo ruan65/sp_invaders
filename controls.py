@@ -3,6 +3,8 @@ import sys
 import pygame
 
 from bullet import Bullet
+from constants import screen_w
+from ino import Ino
 
 
 def events_listener(screen, gun, bullets):
@@ -32,12 +34,12 @@ def is_left_key(event):
     return event.key == pygame.K_a or event.key == pygame.K_LEFT
 
 
-def update_screen(bg_color, screen, gun, ino, bullets):
+def update_screen(bg_color, screen, gun, bullets, army):
     screen.fill(bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.render()
-    ino.draw()
+    army.draw(screen)
     pygame.display.flip()
 
 
@@ -46,3 +48,15 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom < 0:
             bullets.remove(bullet)
+
+
+def create_army(screen, inos):
+    ino = Ino(screen)
+    ino_w = ino.rect.width
+    n_inos = int((screen_w - ino_w * 2) / ino_w)
+
+    for n in range(n_inos):
+        ino = Ino(screen)
+        ino.x = ino_w + ino_w * n
+        ino.rect.x = ino.x
+        inos.add(ino)
