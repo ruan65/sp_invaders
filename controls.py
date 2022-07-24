@@ -32,9 +32,17 @@ def is_left_key(event):
     return event.key == pygame.K_a or event.key == pygame.K_LEFT
 
 
-def update_screen(bg_color, screen, gun, bullets):
+def update_screen(bg_color, screen, gun, ino, bullets):
     screen.fill(bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.render()
+    ino.draw()
     pygame.display.flip()
+
+
+def update_bullets(bullets):
+    bullets.update()
+    for bullet in bullets.copy():
+        if bullet.rect.bottom < 0:
+            bullets.remove(bullet)
